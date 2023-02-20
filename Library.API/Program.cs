@@ -1,24 +1,36 @@
+using Library.API.Middlewares;
+using Library.BLL.Services;
+using Library.BLL.Services.Interfaces;
+using Library.DAL.EF;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseInMemoryDatabase(databaseName: "LibraryDB"));
+
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<RequestLoggingMiddleware>();
+builder.Services.AddScoped<ExceptionHandlingMiddleware>();
+builder.Services.AddScoped<ILibraryService, LibraryService>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+builder.Services.AddEndpointsApiExplorer();
 
-// Configure the HTTP request pipeline.
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseMiddleware<RequestLoggingMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.UseAuthorization();
+
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
