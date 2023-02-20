@@ -1,6 +1,6 @@
 ﻿namespace Library.DAL.Entities
 {
-    internal class Rating
+    public class Rating
     {
         public int Id { get; set; }
         public int BookId { get; set; }
