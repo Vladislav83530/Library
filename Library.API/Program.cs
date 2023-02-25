@@ -16,6 +16,13 @@ builder.Services.AddScoped<ILibraryService, LibraryService>();
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options=>options.AddPolicy(name: "LibraryOrigins",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        }));
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -25,10 +32,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("LibraryOrigins");
 
 app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-
 
 app.UseHttpsRedirection();
 

@@ -4,8 +4,8 @@ namespace Library.BLL.DTOs
 {
     public class BookRequestDTO
     {
-        [Range(1, int.MaxValue)]    
-        public int Id { get; set; }
+        [Range(0, int.MaxValue)]    
+        public int? Id { get; set; }
         public string Title { get; set; }
         [RegularExpression("^data:image\\/[a-zA-Z]+;base64,([^\\s]+)$", ErrorMessage = "Invalid image (base64)")]
         public string Cover { get; set; }

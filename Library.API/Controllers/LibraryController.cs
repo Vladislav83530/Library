@@ -1,5 +1,7 @@
-﻿using Library.BLL.DTOs;
+﻿using AutoMapper;
+using Library.BLL.DTOs;
 using Library.BLL.Services.Interfaces;
+using Library.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.API.Controllers
@@ -10,10 +12,12 @@ namespace Library.API.Controllers
     {
         private readonly ILibraryService _libraryService;
         private readonly IConfiguration _configuration;
-        public LibraryController(ILibraryService libraryService, IConfiguration configuration)
+        private readonly IMapper _mapper;
+        public LibraryController(ILibraryService libraryService, IConfiguration configuration, IMapper mapper)
         {
             _libraryService = libraryService;
             _configuration = configuration;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -33,10 +37,11 @@ namespace Library.API.Controllers
         ///</returns>
         [HttpGet]
         [Route("books")]
-        public async Task<IActionResult> GetAllBooks([FromQuery] string order)
+        public async Task<IActionResult> GetAllBooks([FromQuery] string? order)
         {
             var books = await _libraryService.GetAllBooksAsync(order);
-            return Ok(books);
+            var books_ = _mapper.Map<IEnumerable<Book>, List<BookDTO>>(books);
+            return Ok(books_);
         }
 
         /// <summary>
@@ -175,6 +180,16 @@ namespace Library.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Rate a book
+        /// PUT https://{{baseUrl}}/api/books/{id}/rate
+        /// {
+	    ///     "score": "number",    score can be from 1 to 5
+        /// }
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="rating"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("books/{id}/rate")]
         public async Task<IActionResult> RateBook(int id, [FromBody] RatingRequestDTO rating)
