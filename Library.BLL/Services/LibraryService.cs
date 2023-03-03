@@ -4,7 +4,6 @@ using Library.BLL.Services.Interfaces;
 using Library.DAL.EF;
 using Library.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 
 
 namespace Library.BLL.Services
@@ -21,33 +20,33 @@ namespace Library.BLL.Services
         }
 
         /// <summary>
-        /// Get all books by order (title or author)
+        /// Get all books and order by (title or author)
         /// </summary>
         /// <param name="order"></param>
         /// <returns>list of books with rating info or exception</returns>
         /// <exception cref="Exception"></exception>
-        public async Task<IEnumerable<BookDTO>> GetAllBooksAsync(string order)
+        public async Task<IEnumerable<Book>> GetAllBooksAsync(string? order)
         {
-            if (String.IsNullOrEmpty(order))
-                throw new Exception("Order cann't be null or empty");
-
             var books = await _context.Books
                 .Include(x => x.Ratings)
                 .Include(x => x.Reviews).ToListAsync();
 
-
-            if (order.ToLower() == "author")
+            if (order != null)
             {
-                books = books.OrderBy(x => x.Author).ToList();
-                return _mapper.Map<IEnumerable<Book>, List<BookDTO>>(books);
+                if (order.ToLower() == "author")
+                {
+                    books = books.OrderBy(x => x.Author).ToList();
+                    return books;
+                }
+                else if (order.ToLower() == "title")
+                {
+                    books = books.OrderBy(x => x.Title).ToList();
+                    return books;
+                }
+                else
+                   throw new Exception("Order parameter can be only 'author' or 'title'");
             }
-            else if (order.ToLower() == "title")
-            {
-                books = books.OrderBy(x => x.Title).ToList();
-                return _mapper.Map<IEnumerable<Book>, List<BookDTO>>(books);
-            }
-            else
-                throw new Exception("Order parameter can be only 'author' or 'title'");
+            return books;
         }
 
         /// <summary>
@@ -96,7 +95,7 @@ namespace Library.BLL.Services
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<bool> BookExistAsync(int Id)
+        public async Task<bool> BookExistAsync(int? Id)
         {
             return await _context.Books.AnyAsync(b => b.Id == Id);
         }
