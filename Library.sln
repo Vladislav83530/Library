@@ -5,9 +5,11 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.API", "Library.API\Library.API.csproj", "{BAE2E17F-5DB1-4C37-B736-56A221E3138F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.DAL", "Library.DAL\Library.DAL.csproj", "{BB1D662A-788B-4869-92F0-61E3BCA67BD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.DAL", "Library.DAL\Library.DAL.csproj", "{BB1D662A-788B-4869-92F0-61E3BCA67BD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.BLL", "Library.BLL\Library.BLL.csproj", "{5FBC741A-5986-4996-8E99-9084A43D04B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.BLL", "Library.BLL\Library.BLL.csproj", "{5FBC741A-5986-4996-8E99-9084A43D04B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.UnitTests", "Library.UnitTests\Library.UnitTests.csproj", "{EC241278-9461-4B8F-ABF5-A87BC0C37AFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{5FBC741A-5986-4996-8E99-9084A43D04B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FBC741A-5986-4996-8E99-9084A43D04B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FBC741A-5986-4996-8E99-9084A43D04B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC241278-9461-4B8F-ABF5-A87BC0C37AFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC241278-9461-4B8F-ABF5-A87BC0C37AFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC241278-9461-4B8F-ABF5-A87BC0C37AFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC241278-9461-4B8F-ABF5-A87BC0C37AFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
